@@ -1,41 +1,38 @@
-// main.js
+const animations = {
+  particles: {
+    setup: setupParticles,
+    draw: drawParticles,
+  },
+  circularParticles: {
+    setup: setupCircularParticles,
+    draw: drawCircularParticles,
+  },
+  hexagonParticles: {
+    setup: setupHexagonParticles,
+    draw: drawHexagonParticles,
+  },
+  triangleParticles: {
+    setup: setupTriangleParticles,
+    draw: drawTriangleParticles,
+  },
+};
+
 let currentAnimation = 'particles';
 const toggleButton = document.getElementById('toggleButton');
 
 function setup() {
   clear();
-  if (currentAnimation === 'circularParticles') {
-    setupCircularParticles();
-  } else if (currentAnimation === 'hexagonParticles') {
-    setupHexagonParticles();
-  } else if (currentAnimation === 'triangleParticles') {
-    setupTriangleParticles();
-  } else {
-    setupParticles();
-  }
+  animations[currentAnimation].setup();
 }
 
 function draw() {
-  if (currentAnimation === 'circularParticles') {
-    drawCircularParticles();
-  } else if (currentAnimation === 'hexagonParticles') {
-    drawHexagonParticles();
-  } else if (currentAnimation === 'triangleParticles') {
-    drawTriangleParticles();
-  } else {
-    drawParticles();
-  }
+  animations[currentAnimation].draw();
 }
 
 toggleButton.addEventListener('click', () => {
-  if (currentAnimation === 'particles') {
-    currentAnimation = 'circularParticles';
-  } else if (currentAnimation === 'circularParticles') {
-    currentAnimation = 'hexagonParticles';
-  } else if (currentAnimation === 'hexagonParticles') {
-    currentAnimation = 'triangleParticles';
-  } else {
-    currentAnimation = 'particles';
-  }
+  const animationKeys = Object.keys(animations);
+  const currentIndex = animationKeys.indexOf(currentAnimation);
+  const nextIndex = (currentIndex + 1) % animationKeys.length;
+  currentAnimation = animationKeys[nextIndex];
   setup();
 });
