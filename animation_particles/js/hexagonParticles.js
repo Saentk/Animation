@@ -3,7 +3,7 @@ const hexagonParticles = [];
 function setupHexagonParticles() {
   hexagonParticles.length = 0; // Clear the particles list
   createCanvas(window.innerWidth, window.innerHeight);
-  const particlesLength = Math.floor(window.innerWidth / 30);
+  const particlesLength = Math.floor(window.innerWidth / 20);
 
   for (let i = 0; i < particlesLength; i++) {
     hexagonParticles.push(new HexagonParticle());
@@ -58,21 +58,20 @@ class HexagonParticle {
   const angleBetweenVertices = TWO_PI / 6;
   const rotationOffset = HALF_PI;
 
-  const vertices = [];
-  for (let i = 0; i < 6; i++) {
-    const angle = i * angleBetweenVertices + rotationOffset;
-    const x = this.center.x + this.hexagonRadius * cos(angle);
-    const y = this.center.y + this.hexagonRadius * sin(angle);
-    vertices.push(createVector(x, y));
+    const start = this.getVertex(side, angleBetweenVertices, rotationOffset);
+    const end = this.getVertex((side + 1) % 6, angleBetweenVertices, rotationOffset);
+
+    const x = lerp(start.x, end.x, progress);
+    const y = lerp(start.y, end.y, progress);
+
+    return createVector(x, y);
   }
 
-  const start = vertices[side];
-  const end = vertices[(side + 1) % 6];
-
-  const x = lerp(start.x, end.x, progress);
-  const y = lerp(start.y, end.y, progress);
-
-  return createVector(x, y);
+  getVertex(index, angleBetweenVertices, rotationOffset) {
+    const angle = index * angleBetweenVertices + rotationOffset;
+    const x = this.center.x + this.hexagonRadius * cos(angle);
+    const y = this.center.y + this.hexagonRadius * sin(angle);
+    return createVector(x, y);
   }
 }
 

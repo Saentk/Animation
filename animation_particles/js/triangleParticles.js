@@ -72,21 +72,3 @@ class TriangleParticle {
   }
 }
 
-
-//   getTrianglePoint(side, progress) {
-//   const angle = 120 * side + progress * 120;
-//   const radian = radians(angle);
-//   const x = this.center.x + this.triangleRadius * cos(radian);
-//   const y = this.center.y + this.triangleRadius * sin(radian);
-//   return createVector(x, y);
-// }
-
-
-  // getTrianglePoint(side, progress) {
-  //   const angle = 120 * floor(side / 2) + progress * 120;
-  //   const radian = radians(angle);
-  //   const xOffset = side % 2 === 0 ? 0 : this.triangleRadius * cos(radians(60));
-  //   const x = this.center.x + xOffset + this.triangleRadius * cos(radian);
-  //   const y = this.center.y + this.triangleRadius * sin(radian) * (side % 2 === 0 ? 1 : -1);
-  //   return createVector(x, y);
-  // }
