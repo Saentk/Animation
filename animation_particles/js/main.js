@@ -15,6 +15,10 @@ const animations = {
     setup: setupTriangleParticles,
     draw: drawTriangleParticles,
   },
+  squareParticles: {
+    setup: setupSquareParticles,
+    draw: drawSquareParticles,
+  },
 };
 
 let currentAnimation = 'particles';
