@@ -35,6 +35,36 @@ class Circle:
         self.num = randint(500, 1000)
         self.final_form = 'triangle'
 
+    def setup_square(self):
+        self.side = randint(0, 3)
+        self.progress = random()
+        self.speed = random() * 0.001
+        self.square_size = randint(250, 300)
+        self.points = self.set_square_sides()
+        self.end_pos = self.getSquarePoint(self.side, self.progress)
+        self.num = randint(500, 1000)
+        self.final_form = 'square'
+
+    def set_square_sides(self):
+        half_size = self.square_size / 2
+        topLeft = (self.center[0] - half_size, self.center[1] - half_size)
+        topRight = (self.center[0] + half_size, self.center[1] - half_size)
+        bottomLeft = (self.center[0] - half_size, self.center[1] + half_size)
+        bottomRight = (self.center[0] + half_size, self.center[1] + half_size)
+
+        points = [topLeft, topRight, bottomRight, bottomLeft]
+        return points
+
+    def getSquarePoint(self, side, progress):
+
+        start = self.points[side]
+        end = self.points[(side + 1) % 4]
+
+        x = self.lerp(start[0], end[0], progress)
+        y = self.lerp(start[1], end[1], progress)
+
+        return (x, y)
+
     def get_triangle_point(self, side, progress):
         start = self.vertices[side]
         end = self.vertices[(side + 1) % 3]
@@ -58,6 +88,11 @@ class Circle:
         self.x += self.speed_x
         self.y += self.speed_y
 
+    def update_circle(self):
+        self.angle += self.angular_velocity
+        self.x = self.center[0] + self.circle_radious * math.cos(self.angle)
+        self.y = self.center[1] + self.circle_radious * math.sin(self.angle)
+
     def update_triangle(self):
         self.progress += self.speed
         if self.progress >= 1:
@@ -65,6 +100,13 @@ class Circle:
             self.side = (self.side + 1) % 3
 
         self.x, self.y = self.get_triangle_point(self.side, self.progress)
+
+    def update_square(self):
+        self.progress += self.speed
+        if self.progress >= 1:
+            self.progress = 0
+            self.side = (self.side + 1) % 4
+        self.x, self.y = self.getSquarePoint(self.side, self.progress)
 
     def move_to_position(self):
         self.get_distance()
@@ -85,12 +127,6 @@ class Circle:
         self.speed_y = dy / self.num
         self.num -= 1
 
-    def update_circle(self):
-        self.angle += self.angular_velocity
-        self.x = self.center[0] + self.circle_radious * math.cos(self.angle)
-        self.y = self.center[1] + self.circle_radious * math.sin(self.angle)
-
-
     def move(self):
         if self.move_type == 'bounce':
             self.update_bounce()
@@ -100,6 +136,8 @@ class Circle:
             self.update_circle()
         elif self.move_type == 'triangle':
             self.update_triangle()
+        elif self.move_type == 'square':
+            self.update_square()
 
         self.draw()
 

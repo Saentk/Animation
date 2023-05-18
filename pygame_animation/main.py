@@ -23,7 +23,7 @@ for i in range(1, canvas_height//10):
 buttons = []
 
 button_positions = [(10, 10), (200, 10), (390, 10)]  # Example positions
-button_texts = ["Create circle", "Create triangle", "Create square"]
+button_texts = ["Circle", "Triangle", "Square"]
 
 for pos, text in zip(button_positions, button_texts):
     button = Button(screen, pos[0], pos[1], 120, 50, text)

@@ -45,13 +45,18 @@ class Button():
                 i.move_type = 'bounce'
 
     def create_square(self, lst):
-        print("Create square")
+        for i in lst:
+            if i.move_type != 'to_position' and i.move_type != 'square':
+                i.setup_square()
+                i.move_type = 'to_position'
+            if i.move_type == 'square':
+                i.move_type = 'bounce'
 
     def handle_pos(self, lst):
-        if self.text == "Create circle":
+        if self.text == "Circle":
             self.create_circle(lst)
-        elif self.text == "Create triangle":
+        elif self.text == "Triangle":
             self.create_triangle(lst)
-        elif self.text == "Create square":
+        elif self.text == "Square":
             self.create_square(lst)
 
