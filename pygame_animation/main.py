@@ -1,7 +1,7 @@
 import pygame as p
+from random import randint, choice
 from circle import Circle
 from button import Button
-from random import randint, choice
 
 # Initialize pygame
 p.init()

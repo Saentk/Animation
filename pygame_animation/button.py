@@ -30,18 +30,28 @@ class Button():
 
     def create_circle(self, lst):
         for i in lst:
-            if i.move_type == 'bounce':
+            if i.move_type != 'to_position' and i.move_type != 'circle':
                 i.setup_circle()
-                i.move_type = 'form_circle'
+                i.move_type = 'to_position'
             elif i.move_type == 'circle':
                 i.move_type = 'bounce'
 
     def create_triangle(self, lst):
-        print("Button Clicked!")
+        for i in lst:
+            if i.move_type != 'to_position' and i.move_type != 'triangle':
+                i.setup_triangle()
+                i.move_type = 'to_position'
+            if i.move_type == 'triangle':
+                i.move_type = 'bounce'
+
+    def create_square(self, lst):
+        print("Create square")
 
     def handle_pos(self, lst):
         if self.text == "Create circle":
             self.create_circle(lst)
         elif self.text == "Create triangle":
             self.create_triangle(lst)
+        elif self.text == "Create square":
+            self.create_square(lst)
 
