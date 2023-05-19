@@ -6,23 +6,21 @@ from button import Button
 # Initialize pygame
 p.init()
 
-# Set the width and height of the canvas
+# Canvas
 canvas_width = 1200
 canvas_height = 700
 
-# Create the canvas (window) to draw on
 screen = p.display.set_mode((canvas_width, canvas_height))
+p.display.set_caption("Pygame animation")
 
-# Set the title of the window
-p.display.set_caption("Blank Canvas")
+# Particles
 lst = []
 for i in range(1, canvas_height//10):
     obj = Circle(screen, (randint(15, canvas_width - 15),randint(15, canvas_height - 15)))
     lst.append(obj)
-
+# Buttons
 buttons = []
-
-button_positions = [(10, 10), (200, 10), (390, 10)]  # Example positions
+button_positions = [(10, 10), (200, 10), (390, 10)]
 button_texts = ["Circle", "Triangle", "Square"]
 
 for pos, text in zip(button_positions, button_texts):
@@ -47,5 +45,4 @@ while running:
 
     p.display.flip()
 
-# Quit pygame
 p.quit()
