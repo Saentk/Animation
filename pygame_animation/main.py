@@ -20,7 +20,7 @@ for i in range(1, canvas_height//10):
     lst.append(obj)
 # Buttons
 buttons = []
-button_positions = [(10, 10), (200, 10), (390, 10)]
+button_positions = [(10, 10), (510, 10), (1070, 10)]
 button_texts = ["Circle", "Triangle", "Square"]
 
 for pos, text in zip(button_positions, button_texts):
