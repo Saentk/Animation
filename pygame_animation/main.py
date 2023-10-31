@@ -1,48 +1,56 @@
 import pygame as p
-from random import randint, choice
-from circle import Circle
+from random import randint
+from circle import Particle
 from button import Button
 
-# Initialize pygame
-p.init()
+# Constants
+CANVAS_WIDTH = 1200
+CANVAS_HEIGHT = 700
+BUTTON_WIDTH = 120
+BUTTON_HEIGHT = 50
+BUTTON_SPACING = 500
+PARTICLE_SPACING = 10
+BUTTON_POSITIONS = [(10, 10), (10 + BUTTON_SPACING, 10), (10 + 2 * BUTTON_SPACING, 10)]
+BUTTON_TEXTS = ["Circle", "Triangle", "Square"]
 
-# Canvas
-canvas_width = 1200
-canvas_height = 700
+def init_pygame():
+    p.init()
+    screen = p.display.set_mode((CANVAS_WIDTH, CANVAS_HEIGHT))
+    p.display.set_caption("Pygame animation")
+    return screen
 
-screen = p.display.set_mode((canvas_width, canvas_height))
-p.display.set_caption("Pygame animation")
+def create_particles():
+    return [Particle(screen, (randint(15, CANVAS_WIDTH - 15), randint(15, CANVAS_HEIGHT - 15)))
+            for _ in range(1, CANVAS_HEIGHT // PARTICLE_SPACING)]
 
-# Particles
-lst = []
-for i in range(1, canvas_height//10):
-    obj = Circle(screen, (randint(15, canvas_width - 15),randint(15, canvas_height - 15)))
-    lst.append(obj)
-# Buttons
-buttons = []
-button_positions = [(10, 10), (510, 10), (1070, 10)]
-button_texts = ["Circle", "Triangle", "Square"]
+def create_buttons():
+    return [Button(screen, pos[0], pos[1], BUTTON_WIDTH, BUTTON_HEIGHT, text)
+            for pos, text in zip(BUTTON_POSITIONS, BUTTON_TEXTS)]
 
-for pos, text in zip(button_positions, button_texts):
-    button = Button(screen, pos[0], pos[1], 120, 50, text)
-    buttons.append(button)
+def game_loop(screen, buttons, particles):
+    running = True
+    while running:
+        for event in p.event.get():
+            if event.type == p.QUIT:
+                running = False
 
-# Main game loop
-running = True
-while running:
-    for event in p.event.get():
-        if event.type == p.QUIT:
-            running = False
+            for button in buttons:
+                button.handle_event(event, particles)
 
-    screen.fill((255, 255, 255))
+        screen.fill((255, 255, 255))
 
-    for button in buttons:
-        button.handle_event(event, lst)
-        button.draw()
+        for button in buttons:
+            button.draw()
 
-    for i in lst:
-        i.move()
+        for particle in particles:
+            particle.move()
 
-    p.display.flip()
+        p.display.flip()
+
+
+screen = init_pygame()
+particles = create_particles()
+buttons = create_buttons()
+game_loop(screen, buttons, particles)
 
 p.quit()
